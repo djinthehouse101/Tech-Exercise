@@ -49,11 +49,11 @@ public class MyServletDB extends HttpServlet {
       }
       try {
          String selectSQL = "SELECT * FROM employee";// WHERE MYUSER LIKE ?";
-//         String theUserName = "user%";
+         String theUserName = "name%";
          response.getWriter().println(selectSQL + "<br>");
          response.getWriter().println("------------------------------------------<br>");
          PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
-//         preparedStatement.setString(1, theUserName);
+         preparedStatement.setString(1, theUserName);
          ResultSet rs = preparedStatement.executeQuery();
          while (rs.next()) {
         	 int id = rs.getInt("id");

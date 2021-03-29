@@ -41,18 +41,26 @@ public class SimpleFormSearch extends HttpServlet {
       try {
          DBConnection.getDBConnection();
          connection = DBConnection.connection;
-
-         if (keyword.isEmpty()) {
-            String selectSQL = "SELECT * FROM employee";
-            preparedStatement = connection.prepareStatement(selectSQL);
-         } else {
-            String selectSQL = "SELECT * FROM employee WHERE NAME LIKE ?";
-            String theName = keyword + "%";
-            preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setString(1, theName);
+         if (keyword == null)
+         {
+        	 keyword = "";
          }
+         if (keyword.isEmpty())
+         	{
+        	 	String selectSQL = "SELECT * FROM employee";
+        	 	preparedStatement = connection.prepareStatement(selectSQL);
+         	}
+         else
+         	{
+        	 	String selectSQL = "SELECT * FROM employee WHERE NAME LIKE ?";
+	            String theName = keyword + "%";
+	            preparedStatement = connection.prepareStatement(selectSQL);
+	            preparedStatement.setString(1, theName);
+         	}
+          String selectSQL = "SELECT * FROM employee";
+ 	 	 preparedStatement = connection.prepareStatement(selectSQL);
+ 	 	 keyword = "";
          ResultSet rs = preparedStatement.executeQuery();
-
          while (rs.next()) {
             int id = rs.getInt("id");
             String userName = rs.getString("name").trim();
@@ -77,6 +85,7 @@ public class SimpleFormSearch extends HttpServlet {
          preparedStatement.close();
          connection.close();
       } catch (SQLException se) {
+    	  out.println("SQL Exception");
          se.printStackTrace();
       } catch (Exception e) {
          e.printStackTrace();
